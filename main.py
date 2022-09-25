@@ -1,4 +1,5 @@
 import pickle
+from io import BytesIO
 
 from fastapi import FastAPI
 import uvicorn
@@ -8,7 +9,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, classification_report
 from flaml import AutoML
 from pydantic import BaseModel
-
+import numpy as np
 # Creating FastAPI instance
 app = FastAPI()
 
@@ -34,6 +35,33 @@ class request_body_train(BaseModel):
     train_time: int
 
 # load data
+import requests
+
+url = "https://api.ignatius.io/api/report/export?reportId=5358&tableId=2362&exportType=csv&size=-1&tblName=1"
+
+payload={}
+
+
+headers={"Authorization": "Bearer wgxt87joyqsMlB4AHUD9Zd0V3ITdFkEEzM5htGFnDkk"}
+response = requests.request("GET", url, headers=headers, data=payload)
+
+print(response.content)
+dt = np.dtype([('a', 'i4'), ('b', 'i4'), ('c', 'i4'), ('d', 'f4'), ('e', 'i4'),
+               ('f', 'i4'), ('g', 'i4'), ('h', 'i4'), ('i', 'i4'), ('j', 'i4'),
+               ('k', 'i4'), ('l', 'i4'), ('m', 'i4'), ('n', 'i4')])
+
+data = np.genfromtxt(response.content, delimiter=',', skip_header=1, dtype=dt)
+
+print(data)
+# headers={"Authorization": "Bearer wgxt87joyqsMlB4AHUD9Zd0V3ITdFkEEzM5htGFnDkk"}
+
+
+response = requests.request("GET", url, headers={"Authorization": "Bearer wgxt87joyqsMlB4AHUD9Zd0V3ITdFkEEzM5htGFnDkk"})
+
+# df = pd.read_csv(BytesIO(response.text))
+# print(df)
+
+
 df = pd.read_csv('Table_2358_Report_5350.csv')
 # initialize AutoML
 automl = AutoML()
@@ -84,3 +112,19 @@ def predict(data: request_body):
     class_idx = trained_model.predict(df)
     # Return the Result
     return {'This person has heart disease.'} if class_idx else {'This person does not have heart disease.'}
+
+# {
+#   "age": 63,
+#   "Ca": 0,
+#   "Chol": 233,
+#   "Cp": 3,
+#   "Exang": 0,
+#   "Fbs": 1,
+#   "OldPeak": 2.3,
+#   "RestEcg": 0,
+#   "sex": 1,
+#   "Slope": 0,
+#   "TrestBps": 145,
+#   "Thal": 1,
+#   "Thalac": 150
+# }

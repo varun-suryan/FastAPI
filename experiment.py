@@ -1,5 +1,16 @@
-import psycopg2
+def longestSubarray(nums):
+    max_number = max(nums)
+    i = 0
+    ans = 1
+    while i < len(nums):
 
-conn = psycopg2.connect(database="postgres", user = "postgres", password = "postgres", host = "127.0.0.1", port = "5432")
+        if nums[i] == max_number:
+            start = i
 
-print("Opened database successfully")
+            while i < len(nums) and nums[i] == max_number:
+                i += 1
+
+
+            ans = max(ans, i - start)
+
+        i += 1
