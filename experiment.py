@@ -1,16 +1,18 @@
-def longestSubarray(nums):
-    max_number = max(nums)
-    i = 0
-    ans = 1
-    while i < len(nums):
+import requests
+import base64
+import json
 
-        if nums[i] == max_number:
-            start = i
+output = "output.csv"                                                           # Output File:
 
-            while i < len(nums) and nums[i] == max_number:
-                i += 1
+url = "https://api.ignatius.io/api/report/export?reportId=5358&tableId=2362&exportType=csv&size=-1&tblName=1"
+
+payload={}
 
 
-            ans = max(ans, i - start)
+headers={"Authorization": "Bearer X3p-Hum47YMiY8dBEw-OsQpSnVPcZRFdqtSRpx9eEdY"}
+input = requests.request("GET", url, headers=headers, data=payload).
 
-        i += 1
+
+decodedBytes = base64.b64decode()
+decodedStr = decodedBytes.decode("ascii")
+print(decodedStr)

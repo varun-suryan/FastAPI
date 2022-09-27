@@ -37,22 +37,21 @@ class request_body_train(BaseModel):
 # load data
 import requests
 
-url = "https://api.ignatius.io/api/report/export?reportId=5358&tableId=2362&exportType=csv&size=-1&tblName=1"
+url = "https://api.ignatius.io/api/report/export?reportId=ti2coyqg1&tableId=2363&exportType=csv&size=-1&tblName=1"
 
 payload={}
 
 
-headers={"Authorization": "Bearer wgxt87joyqsMlB4AHUD9Zd0V3ITdFkEEzM5htGFnDkk"}
+headers={"Authorization": "Bearer X3p-Hum47YMiY8dBEw-OsQpSnVPcZRFdqtSRpx9eEdY"}
 response = requests.request("GET", url, headers=headers, data=payload)
 
-print(response.content)
-dt = np.dtype([('a', 'i4'), ('b', 'i4'), ('c', 'i4'), ('d', 'f4'), ('e', 'i4'),
-               ('f', 'i4'), ('g', 'i4'), ('h', 'i4'), ('i', 'i4'), ('j', 'i4'),
-               ('k', 'i4'), ('l', 'i4'), ('m', 'i4'), ('n', 'i4')])
+print(response.text.encode('utf8'))
+# dt = np.dtype([('a', 'i4'), ('b', 'i4'), ('c', 'i4'), ('d', 'f4'), ('e', 'i4'),
+#                ('f', 'i4'), ('g', 'i4'), ('h', 'i4'), ('i', 'i4'), ('j', 'i4'),
+#                ('k', 'i4'), ('l', 'i4'), ('m', 'i4'), ('n', 'i4')])
 
-data = np.genfromtxt(response.content, delimiter=',', skip_header=1, dtype=dt)
+# data = np.genfromtxt(response.content, delimiter=',', skip_header=1, dtype=dt)
 
-print(data)
 # headers={"Authorization": "Bearer wgxt87joyqsMlB4AHUD9Zd0V3ITdFkEEzM5htGFnDkk"}
 
 
